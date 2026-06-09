@@ -467,12 +467,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         
         <p class="body-text lt">Plan your celebration with clarity, confidence, and cultural understanding.</p>
         <div class="lead-checklist">
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Custom multi-day wedding itinerary</span></div>
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Personalized pricing &amp; guest planning</span></div>
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Halal &amp; vegetarian catering options</span></div>
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Décor, entertainment &amp; vendor coordination</span></div>
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Flight &amp; transfer assistance</span></div>
-          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Dedicated wedding planning support — 100% free</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Full Name</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Phone Number</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Country (United States, Mexico, Canada)</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Estimated Guest Count</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Wedding Date</span></div>
+          <div class="lead-check-item"><span class="lead-check-mark">✓</span><span>Estimated Budget Range (&gt; $15,000, $15,000–$30,000, $30,000–$75,000, $75k+)</span></div>
         </div>
         <div class="lead-assurance">🔒 Your information is never shared or sold. A real wedding specialist — not a chatbot — will respond personally.</div>
       </div>
@@ -480,18 +480,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="formContent">
           <h3>Tell Us About Your Wedding</h3>
           <p class="form-sub">Takes under 2 minutes — we'll handle everything else.</p>
-          <div class="fg-row">
-            <div class="fg"><label>Full Name *</label><input type="text" id="f_name" placeholder="e.g. Priya"></div>
-            <div class="fg"><label>Partner's Name *</label><input type="text" id="f_partner" placeholder="e.g. Rohan"></div>
-          </div>
-          <div class="fg"><label>Email Address *</label><input type="email" id="f_email" placeholder="you@email.com"></div>
-          <div class="fg-row">
-            <div class="fg"><label>Country</label><select id="f_country"><option value="" disabled selected>Select country</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>India</option><option>Australia</option><option>Other</option></select></div>
-            <div class="fg"><label>Estimated Guest Count *</label><select id="f_guests"><option value="" disabled selected>Select range</option><option>Under 50 guests</option><option>50 – 100 guests</option><option>100 – 200 guests</option><option>200 – 350 guests</option><option>350 – 500 guests</option><option>500+ guests</option></select></div>
-          </div>
-          <div class="fg"><label>Wedding Date (Approx)</label><input type="date" id="f_date"></div>
-          <button class="form-submit" onclick="submitForm()">Request Free Consultation</button>
-          <p class="form-note">🔒 A real specialist will respond within 24 hours.</p>
+          <div class="fg"><label>Full Name *</label><input type="text" id="f_name" placeholder="Full name"></div>
+          <div class="fg"><label>Phone Number *</label><input type="tel" id="f_phone" placeholder="+1 (___) ___-____"></div>
+          <div class="fg"><label>Country *</label><select id="f_country"><option value="" disabled selected>Select country</option><option>United States</option><option>Canada</option><option>Mexico</option></select></div>
+          <div class="fg"><label>Estimated Guest Count</label><input type="number" id="f_guests" placeholder="e.g. 150"></div>
+          <div class="fg"><label>Wedding Date</label><input type="date" id="f_date"></div>
+          <div class="fg"><label>Estimated Budget Range</label><select id="f_budget"><option value="" disabled selected>Select</option><option>Under $15,000</option><option>$15,000 – $30,000</option><option>$30,000 – $75,000</option><option>$75,000+</option></select></div>
+          <button class="form-submit" onclick="submitForm()">Get a Personalized Plan</button>
+          <p class="form-note">100% free • No spam • Delivered in 24 hours</p>
         </div>
       </div>
     </div>
@@ -679,10 +675,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     const GOOGLE_SHEET_URL='https://script.google.com/macros/s/AKfycbxf7C-e63reKk1PmXTVfUB3dD7O-QlGlI2zjLxMu1appBMgY9xiBGwkM6Ocwnku-V8D/exec';
     function submitForm(){
-      const name=document.getElementById('f_name').value.trim();
-      const email=document.getElementById('f_email').value.trim();
-      if(!name||!email){alert('Please fill in at least your name and email.');return;}
-      const data={fullName:name,partnerName:document.getElementById('f_partner').value.trim(),email,country:document.getElementById('f_country').value||'',guests:document.getElementById('f_guests').value||'',weddingDate:document.getElementById('f_date').value||'',submittedAt:new Date().toLocaleString()};
+      const req=['f_name','f_phone'];
+      let ok=true;
+      req.forEach(id=>{const el=document.getElementById(id);if(!el.value.trim()){el.style.borderColor='var(--error,#e05252)';ok=false;}else el.style.borderColor='';});
+      if(!ok)return;
+      const data={
+        fullName:document.getElementById('f_name').value.trim(),
+        phone:document.getElementById('f_phone').value.trim(),
+        country:document.getElementById('f_country').value||'Not specified',
+        guestCount:document.getElementById('f_guests').value||'Not specified',
+        weddingDate:document.getElementById('f_date').value||'Not specified',
+        budget:document.getElementById('f_budget').value||'Not specified',
+        submittedAt:new Date().toLocaleString()
+      };
       const params=new URLSearchParams(data).toString();
       window.location.href='thank.html';
       fetch(GOOGLE_SHEET_URL+'?'+params,{mode:'no-cors'}).catch(e=>console.error(e));
