@@ -73,7 +73,7 @@
     .form-submit:hover{background:#fff;transform:translateY(-2px)}
     
     @media(min-width:1081px){
-      .hero{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:140px var(--g) 80px}
+      .hero{display:flex;align-items:center;padding:140px var(--g) 80px}
       .hero-inner{padding:0;}
     }
     @media(max-width:1080px){
@@ -81,7 +81,6 @@
       .hero-inner{padding-right: 0;}
       .hero-btns{justify-content:center}
       .nav-links{display:none}
-      .form-card{margin-top: 2rem;}
     }
 
     /* TRUST STRIP */
@@ -217,20 +216,6 @@
         <button class="btn-primary" onclick="scrollToId('lead')">Book your Free Consultation Today</button>
         <button class="btn-secondary" onclick="scrollToId('packages')">View Signature Wedding Experiences</button>
       </div>
-    </div>
-    
-    <!-- Hero Form (Right Side) -->
-    <div class="form-card">
-      <h3>Start Your Wedding Planning</h3>
-      <p class="form-sub">Receive a Personalized Wedding Proposal Within 24 Hours</p>
-      <form id="heroForm">
-        <div class="fg"><input type="text" name="name" placeholder="Full Name *" required></div>
-        <div class="fg"><input type="email" name="email" placeholder="Email Address *" required></div>
-        <div class="fg"><input type="tel" name="phone" placeholder="Phone Number *" required></div>
-        <div class="fg"><select name="guestCount" required><option value="" disabled selected>Estimated Guest Count *</option><option>Under 50</option><option>50–100</option><option>100–200</option><option>200–350</option><option>350–500</option><option>500+</option></select></div>
-        <button type="submit" class="form-submit">Request Proposal</button>
-      </form>
-      <p class="form-sub" style="margin-top:10px; margin-bottom:0; font-size:0.65rem;">Your details remain private. No spam, no obligation.</p>
     </div>
   </section>
 
@@ -531,8 +516,7 @@
       }
     }
 
-    // Attach handlers to both forms
-    document.getElementById('heroForm').addEventListener('submit', (e) => handleFormSubmit(e, 'Hero Form'));
+    // Attach handler to lead form only
     document.getElementById('leadForm').addEventListener('submit', (e) => handleFormSubmit(e, 'Lead Form'));
   </script>
 </body>
