@@ -45,6 +45,8 @@
     .nav{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 1.2rem;border-radius:100px;background:rgba(46,69,70,0.85);backdrop-filter:blur(14px);box-shadow:0 8px 32px rgba(20,30,31,0.2);position:relative}
     .nav-brand{display:flex;align-items:center;gap:0.6rem;color:#fff;font-family:var(--serif);font-weight:600;font-size:1.1rem;letter-spacing:0.02em;}
     .nav-brand em{font-style:italic;color:#8FC0DE;}
+    .nav-logo{height:40px;width:auto;display:block;object-fit:contain;}
+    .nav-word{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:#fff;line-height:1;}
     .nav-links{display:flex;align-items:center;gap:1.8rem}
     .nav-links a{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.78);transition:color 0.25s}
     .nav-links a:hover{color:#fff}
@@ -192,7 +194,9 @@
   <!-- NAV -->
   <div class="nav-wrap" id="navWrap">
     <nav class="nav">
-      <a href="#" class="nav-brand">DestinationPick × <em>Playa Resorts</em></a>
+      <a href="#" class="nav-brand" aria-label="DestinationPick × Playa Resorts — home">
+        <img src="https://www.destinationpick.com/images/logo.webp" alt="DestinationPick × Playa Resorts" class="nav-logo" onerror="this.outerHTML='<span class=\'nav-word\'>DestinationPick × Playa Resorts</span>'"/>
+      </a>
       <div class="nav-links">
         <a href="#why">Our Concierge Difference</a>
         <a href="#destinations">Specialized Ceremonies</a>
@@ -479,7 +483,7 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-brand">DestinationPick × <em>Playa Resorts</em></div>
+    <div class="footer-brand">DestinationPick × Playa Resorts</div>
     <p class="footer-desc">South Asian Destination Weddings · Mexico · Jamaica · Dominican Republic<br>Personalised unforgettable multi-day celebrations where tradition meets the Caribbean.</p>
     <p class="footer-legal">© 2026 DestinationPick. All Rights Reserved.</p>
   </footer>
