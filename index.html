@@ -223,11 +223,13 @@
     <div class="form-card">
       <h3>Start Your Wedding Planning</h3>
       <p class="form-sub">Receive a Personalized Wedding Proposal Within 24 Hours</p>
-      <div class="fg"><input type="text" placeholder="Full Name *" required></div>
-      <div class="fg"><input type="email" placeholder="Email Address *" required></div>
-      <div class="fg"><input type="tel" placeholder="Phone Number *" required></div>
-      <div class="fg"><select><option value="" disabled selected>Estimated Guest Count *</option><option>Under 50</option><option>50–100</option><option>100–200</option><option>200–350</option><option>350–500</option><option>500+</option></select></div>
-      <button class="form-submit" onclick="alert('Form Submitted Successfully!')">Request Proposal</button>
+      <form id="heroForm">
+        <div class="fg"><input type="text" name="name" placeholder="Full Name *" required></div>
+        <div class="fg"><input type="email" name="email" placeholder="Email Address *" required></div>
+        <div class="fg"><input type="tel" name="phone" placeholder="Phone Number *" required></div>
+        <div class="fg"><select name="guestCount" required><option value="" disabled selected>Estimated Guest Count *</option><option>Under 50</option><option>50–100</option><option>100–200</option><option>200–350</option><option>350–500</option><option>500+</option></select></div>
+        <button type="submit" class="form-submit">Request Proposal</button>
+      </form>
       <p class="form-sub" style="margin-top:10px; margin-bottom:0; font-size:0.65rem;">Your details remain private. No spam, no obligation.</p>
     </div>
   </section>
@@ -469,13 +471,15 @@
       <div class="form-card">
         <h3>Receive a Personalized Proposal</h3>
         <p class="form-sub">A dedicated specialist will respond within 24 hours.</p>
-        <div class="fg"><label>Name *</label><input type="text" placeholder="Full Name" required></div>
-        <div class="fg"><label>Email *</label><input type="email" placeholder="Email Address" required></div>
-        <div class="fg"><label>Phone *</label><input type="tel" placeholder="Phone Number" required></div>
-        <div class="fg"><label>Wedding Date (Optional)</label><input type="date"></div>
-        <div class="fg"><label>Estimated Guest Count *</label><select required><option value="" disabled selected>Select Count</option><option>Under 50</option><option>50–100</option><option>100–200</option><option>200–350</option><option>350–500</option><option>500+</option></select></div>
-        <div class="fg"><label>Budget (Optional)</label><input type="text" placeholder="Estimated Budget"></div>
-        <button class="form-submit" onclick="alert('Form Submitted Successfully!')">Request a Personalised Proposal</button>
+        <form id="leadForm">
+          <div class="fg"><label>Name *</label><input type="text" name="name" placeholder="Full Name" required></div>
+          <div class="fg"><label>Email *</label><input type="email" name="email" placeholder="Email Address" required></div>
+          <div class="fg"><label>Phone *</label><input type="tel" name="phone" placeholder="Phone Number" required></div>
+          <div class="fg"><label>Wedding Date (Optional)</label><input type="date" name="weddingDate"></div>
+          <div class="fg"><label>Estimated Guest Count *</label><select name="guestCount" required><option value="" disabled selected>Select Count</option><option>Under 50</option><option>50–100</option><option>100–200</option><option>200–350</option><option>350–500</option><option>500+</option></select></div>
+          <div class="fg"><label>Budget (Optional)</label><input type="text" name="budget" placeholder="Estimated Budget"></div>
+          <button type="submit" class="form-submit">Request a Personalised Proposal</button>
+        </form>
         <p class="form-sub" style="margin-top:15px; margin-bottom:0; font-size:0.6rem;">Your details remain private. No spam, no obligation.</p>
       </div>
     </div>
@@ -495,6 +499,41 @@
       if(window.scrollY>80)nav.classList.add('scrolled');
       else nav.classList.remove('scrolled');
     });
+
+    // Form submission handlers
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // Replace with your actual URL
+
+    async function handleFormSubmit(e, formType) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      const data = {
+        timestamp: new Date().toISOString(),
+        formType: formType
+      };
+      
+      for (let [key, value] of formData.entries()) {
+        data[key] = value;
+      }
+
+      // Build URL with query parameters
+      const url = SCRIPT_URL + '?' + new URLSearchParams(data).toString();
+      
+      try {
+        await fetch(url, { mode: 'no-cors' });
+        // Redirect to thank you page
+        window.location.href = 'thank.html';
+      } catch (error) {
+        console.error('Form submission error:', error);
+        // Still redirect even if there's an error (no-cors mode doesn't give response)
+        window.location.href = 'thank.html';
+      }
+    }
+
+    // Attach handlers to both forms
+    document.getElementById('heroForm').addEventListener('submit', (e) => handleFormSubmit(e, 'Hero Form'));
+    document.getElementById('leadForm').addEventListener('submit', (e) => handleFormSubmit(e, 'Lead Form'));
   </script>
 </body>
 </html>
